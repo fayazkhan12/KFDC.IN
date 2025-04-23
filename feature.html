@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Features | KOOLI BUSSINESS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0f1115;
+      color: #fff;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    header {
+      padding: 40px 8%;
+      background: #121418;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1f2228;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      background: linear-gradient(to right, #00d2ff, #3a47d5);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    nav a {
+      margin-left: 30px;
+      color: #aaa;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #fff;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 100px 10% 40px;
+    }
+
+    .hero h1 {
+      font-size: 3.2rem;
+      margin-bottom: 20px;
+      background: linear-gradient(45deg, #00d2ff, #3a47d5);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #ccc;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      padding: 60px 10%;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 30px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    .feature-card.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .feature-card h3 {
+      margin-top: 15px;
+      font-size: 1.4rem;
+    }
+
+    .feature-card p {
+      color: #bbb;
+      font-size: 0.95rem;
+      margin-top: 10px;
+    }
+
+    .icon {
+      font-size: 2rem;
+      background: linear-gradient(135deg, #00d2ff, #3a47d5);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    footer {
+      text-align: center;
+      padding: 50px 10%;
+      border-top: 1px solid #1f2228;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.2rem; }
+    }
+  </style>
+</head>
+<body>
+<marque>
+  <header>
+    <div class="logo">KOOLI BUSSINESS</div>
+    <nav>
+      <a href="index1.html.html">Home</a>
+      
+    </nav>
+</marque>
+  </header>
+
+  <section class="hero">
+    <h1>Everything You Need to Build a Stunning Website</h1>
+    <p>KOOLI BUSSINESS gives you powerful tools to create, design, and deploy your website like a pro For Free.
+  </section>
+
+  <section class="features-grid" id="features">
+    <div class="feature-card">
+      <div class="icon">🧩</div>
+      <h3>Drag & Drop Builder</h3>
+      <p>Design freely with our smart grid system. Move elements easily and preview in real time.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="icon">🤖</div>
+      <h3>AI Design Assistant</h3>
+      <p>Our AI helps you pick templates, write content, and build a website tailored to your goals.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="icon">📱</div>
+      <h3>Fully Responsive</h3>
+      <p>Your site looks great on every device — mobile, tablet, or desktop, automatically.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="icon">🚀</div>
+      <h3>1-Click Deployment</h3>
+      <p>Instantly publish your website to Netlify or Firebase with a single click.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="icon">🎨</div>
+      <h3>Theme & Layout Control</h3>
+      <p>Switch between dark/light themes, adjust layouts, and use stylish components easily.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="icon">📤</div>
+      <h3>Export & Save</h3>
+      <p>Download your full website as HTML or export to a .zip for backups and migration.</p>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 KOOLI BUSSINESS — Website Builder for Everyone
+  </footer>
+
+  <script>
+    // Scroll-based animation
+    const cards = document.querySelectorAll('.feature-card');
+    window.addEventListener('scroll', () => {
+      cards.forEach(card => {
+        const top = card.getBoundingClientRect().top;
+        const trigger = window.innerHeight - 80;
+        if (top < trigger) {
+          card.classList.add('active');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
