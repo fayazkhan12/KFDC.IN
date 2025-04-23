@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customize Your Template</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #f0f4f8;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    header {
+      background-color: #4f46e5;
+      color: white;
+      padding: 2rem 1rem;
+      text-align: center;
+      font-size: 2rem;
+      width: 100%;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .container {
+      width: 80%;
+      max-width: 1200px;
+      margin: 20px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+    .customize-option {
+      display: flex;
+      flex-direction: column;
+      margin: 20px 0;
+    }
+    .customize-option label {
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    .customize-option input[type="color"], .customize-option input[type="file"] {
+      padding: 8px;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+    .customize-option input[type="text"] {
+      padding: 8px;
+      border-radius: 5px;
+      margin-top: 10px;
+      width: 50%;
+    }
+    .button-container {
+      text-align: center;
+    }
+    .button-container button {
+      background-color: #4f46e5;
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    .button-container button:hover {
+      background-color: #3b3ae2;
+    }
+  </style>
+</head>
+<body>
+
+  <header>Customize Your Template</header>
+
+  <div class="container">
+    <div class="customize-option">
+      <label for="background-color">Change Background Color</label>
+      <input type="color" id="background-color" onchange="changeBackgroundColor(event)">
+    </div>
+
+    <div class="customize-option">
+      <label for="text-color">Change Text Color</label>
+      <input type="color" id="text-color" onchange="changeTextColor(event)">
+    </div>
+
+    <div class="customize-option">
+      <label for="font-size">Change Font Size</label>
+      <input type="text" id="font-size" placeholder="Enter font size (e.g., 18px)">
+    </div>
+
+    <div class="customize-option">
+      <label for="upload-image">Upload Custom Image</label>
+      <input type="file" id="upload-image" onchange="uploadImage(event)">
+    </div>
+
+    <div class="button-container">
+      <button onclick="applyChanges()">Apply Changes</button>
+      <button onclick="goBack()">Back to Builder</button>
+    </div>
+  </div>
+
+  <script>
+    // Change the background color
+    function changeBackgroundColor(event) {
+      document.body.style.backgroundColor = event.target.value;
+    }
+
+    // Change the text color
+    function changeTextColor(event) {
+      document.body.style.color = event.target.value;
+    }
+
+    // Upload custom image
+    function uploadImage(event) {
+      const reader = new FileReader();
+      reader.onload = function() {
+        const uploadedImage = reader.result;
+        document.body.style.backgroundImage = `url(${uploadedImage})`;
+        document.body.style.backgroundSize = 'cover';
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
+
+    // Apply changes (placeholder functionality)
+    function applyChanges() {
+      alert("Changes applied successfully!");
+    }
+
+    // Go back to builder page
+    function goBack() {
+      window.location.href = 'builder.html';
+    }
+  </script>
+
+</body>
+</html>

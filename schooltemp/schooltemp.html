@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive School Website Builder</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* General Styles */
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background: #f0f4f8;
+      color: #333;
+    }
+    header {
+      background: #4f46e5;
+      color: white;
+      padding: 2rem 1rem;
+      text-align: center;
+      font-size: 2rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Template Selection */
+    .template-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 40px;
+      padding: 20px;
+      animation: fadeIn 1s ease-in-out;
+    }
+    .template-card {
+      border-radius: 15px;
+      overflow: hidden;
+      width: 280px;
+      cursor: pointer;
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      background: white;
+    }
+    .template-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+    }
+    .template-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .template-card:hover img {
+      transform: scale(1.1);
+    }
+    .template-card p {
+      text-align: center;
+      padding: 10px;
+      background-color: #4f46e5;
+      color: white;
+      font-weight: 600;
+      border-radius: 0 0 15px 15px;
+    }
+
+    /* Canvas for template editing */
+    #canvas {
+      padding: 2rem;
+      background: white;
+      margin: 2rem;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      min-height: 350px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+
+    /* Editable Sections */
+    .editable {
+      border: 2px dashed #4f46e5;
+      padding: 10px;
+      margin: 10px 0;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .editable:hover {
+      background-color: #f1f1f1;
+    }
+
+    /* Customizable Tools */
+    .customize-tools {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      gap: 15px;
+    }
+    .customize-tools button {
+      background: #4f46e5;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+    }
+    .customize-tools button:hover {
+      background-color: #3b3ae2;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .template-gallery {
+        flex-direction: column;
+        align-items: center;
+      }
+      .section {
+        padding: 1.5rem;
+      }
+    }
+
+    /* Animation for page load */
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>Interactive School Website Builder</header>
+
+  <!-- Template Selection -->
+  <div class="template-gallery">
+    <div class="template-card" onclick="loadTemplate('modern')">
+      <img src="img5.jpg" alt="Modern Template">
+      <p>Modern Template</p>
+    </div>
+    <div class="template-card" onclick="loadTemplate('classic')">
+      <img src="img6.jpg" alt="Classic Template">
+      <p>Classic Template</p>
+    </div>
+    <div class="template-card" onclick="loadTemplate('minimal')">
+      <img src="img7.jpg" alt="Minimal Template">
+      <p>Minimal Template</p>
+    </div>
+  </div>
+
+  <!-- Canvas for editing the selected template -->
+  <div id="canvas">
+    <div class="editable" contenteditable="true" oninput="updateContent()">Click to edit this title</div>
+    <div class="editable" contenteditable="true" oninput="updateContent()">Click to edit this text</div>
+    <div class="editable" contenteditable="true" oninput="updateContent()">Click to edit this list</div>
+    <ul>
+      <li class="editable" contenteditable="true" oninput="updateContent()">Upcoming Event 1</li>
+      <li class="editable" contenteditable="true" oninput="updateContent()">Upcoming Event 2</li>
+    </ul>
+  </div>
+
+  <!-- Customizable Tools for text, images, video -->
+  <div class="customize-tools">
+    <a href="schooltemp1.html">
+        <button>Customize this page</button>
+      </a>
+      
+    <button onclick="changeTextColor()">Change Text Color</button>
+    <button onclick="uploadImage()">Upload Image</button>
+    <button onclick="addBackgroundVideo()">Add Background Video</button>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Our School. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    let selectedTemplate = null;
+
+    // Function to load template dynamically
+    function loadTemplate(templateName) {
+      selectedTemplate = templateName;
+      const canvas = document.getElementById('canvas');
+
+      let templateContent = '';
+      if (templateName === 'modern') {
+        templateContent = `
+          <div class="editable" contenteditable="true" oninput="updateContent()">Welcome to Our Modern School</div>
+          <div class="editable" contenteditable="true" oninput="updateContent()">Empowering students with modern education.</div>
+          <div class="editable" contenteditable="true" oninput="updateContent()">Upcoming Events</div>
+          <ul>
+            <li class="editable" contenteditable="true" oninput="updateContent()">Sports Day: 15th May</li>
+            <li class="editable" contenteditable="true" oninput="updateContent()">Parent-Teacher Meeting: 20th May</li>
+            <li class="editable" contenteditable="true" oninput="updateContent()">Annual Function: 25th June</li>
+          </ul>
+        `;
+      } else if (templateName === 'classic') {
+        templateContent = `
+          <div class="editable" contenteditable="true" oninput="updateContent()">Welcome to Our Classic School</div>
+          <div class="editable" contenteditable="true" oninput="updateContent()">Where tradition meets modernity</div>
+          <div class="editable" contenteditable="true" oninput="updateContent()">Upcoming Events</div>
+          <ul>
+            <li class="editable" contenteditable="true" oninput="updateContent()">Sports Day: 10th May</li>
+            <li class="editable" contenteditable="true" oninput="updateContent()">Cultural Festival: 22nd May</li>
+            <li class="editable" contenteditable="true" oninput="updateContent()">Annual Day: 30th June</li>
+          </ul>
+        `;
+      } else {
+        templateContent = `
+          <div class="editable" contenteditable="true" oninput="updateContent()">Welcome to Our Minimal School</div>
+          <div class="editable" contenteditable="true" oninput="updateContent()">Simple, effective, and impactful education</div>
+          <div class="editable" contenteditable="true" oninput="updateContent()">Upcoming Events</div>
+          <ul>
+            <li class="editable" contenteditable="true" oninput="updateContent()">Admission Open: 1st April</li>
+            <li class="editable" contenteditable="true" oninput="updateContent()">Cultural Day: 15th May</li>
+          </ul>
+        `;
+      }
+
+      canvas.innerHTML = templateContent;
+    }
+
+    // Function to update content
+    function updateContent() {
+      const editableElements = document.querySelectorAll('.editable');
+      editableElements.forEach(el => {
+        if (el.textContent.trim() === '') {
+          el.style.backgroundColor = '#ffcccc'; // Highlight empty editable areas
+        } else {
+          el.style.backgroundColor = '';
+        }
+      });
+    }
+
+    // Change background color
+    function changeBackground() {
+      const canvas = document.getElementById('canvas');
+      canvas.style.backgroundColor = '#e0e7ff'; // Change background color to light blue
+    }
+
+    // Change text color
+    function changeTextColor() {
+      const editableElements = document.querySelectorAll('.editable');
+      editableElements.forEach(el => {
+        el.style.color = '#2d3748';
+      });
+    }
+
+    // Upload an image
+    function uploadImage() {
+      alert("Image upload functionality coming soon!");
+    }
+
+    // Add background video
+    function addBackgroundVideo() {
+      alert("Background video functionality coming soon!");
+    }
+    
+  </script>
+</body>
+</html>

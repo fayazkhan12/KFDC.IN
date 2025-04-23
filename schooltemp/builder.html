@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website Builder</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      background: #f9fafb;
+    }
+    header {
+      background: #4f46e5;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.5rem;
+    }
+    #toolbar {
+      background: white;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      flex-wrap: wrap;
+    }
+    #toolbar button, #toolbar input {
+      padding: 8px 16px;
+      background: #4f46e5;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 5px;
+    }
+    #canvas {
+      flex-grow: 1;
+      padding: 2rem;
+      background: white;
+      margin: 1rem;
+      border-radius: 8px;
+      overflow: auto;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      min-height: 300px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 2px solid #ddd;
+    }
+    .draggable {
+      position: absolute;
+      cursor: pointer;
+      margin: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      background: #f3f3f3;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      display: inline-block;
+      min-width: 100px;
+    }
+    .draggable img {
+      max-width: 100%;
+      border-radius: 5px;
+    }
+    .draggable button {
+      background-color: #10b981;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .draggable .delete {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: red;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 12px;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .draggable .resize-handle {
+      position: absolute;
+      bottom: -5px;
+      right: -5px;
+      background: #4f46e5;
+      width: 12px;
+      height: 12px;
+      cursor: se-resize;
+      border-radius: 50%;
+    }
+    @media (max-width: 600px) {
+      #toolbar {
+        flex-direction: column;
+        align-items: center;
+      }
+      #canvas {
+        padding: 1rem;
+      }
+      
+      button {
+  background-color: #4f46e5;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+button:hover {
+  background-color: #3730a3;
+}
+
+    }
+  </style>
+</head>
+<body>
+  <header>Drag & Drop Website Builder</header>
+  <div id="toolbar">
+    <div>
+      <button onclick="addText()">Add Text</button>
+      <button onclick="addImage()">Add Image</button>
+      <button onclick="addButton()">Add Button</button>
+    </div>
+    <div>
+      <input type="file" id="imageUpload" style="display:none" onchange="uploadImage(event)">
+      <button onclick="document.getElementById('imageUpload').click()">Upload Image from Computer</button>
+      <button onclick="exportSite()">Export</button>
+      <button onclick="clearCanvas()">Clear</button>
+      <button onclick="saveLayout()">Save Layout</button>
+      <button onclick="loadLayout()">Load Layout</button>
+    </div>
+    <div>
+      <label for="textSize">Text Size:</label>
+      <input type="range" id="textSize" min="10" max="100" value="16" onchange="changeTextSize(event)">
+    </div>
+  </div>
+  <div id="canvas" contenteditable="true"></div>
+
+  <script>
+    let currentElement = null;
+    let undoStack = [];
+    let redoStack = [];
+
+    // Function to make the element draggable
+    function makeDraggable(element) {
+      let offsetX, offsetY;
+
+      element.onmousedown = function(e) {
+        e.preventDefault();
+        offsetX = e.clientX - element.getBoundingClientRect().left;
+        offsetY = e.clientY - element.getBoundingClientRect().top;
+
+        document.onmousemove = function(e) {
+          element.style.left = e.clientX - offsetX + 'px';
+          element.style.top = e.clientY - offsetY + 'px';
+        };
+
+        document.onmouseup = function() {
+          document.onmousemove = null;
+          document.onmouseup = null;
+        };
+      };
+
+      // Add resize handle
+      const resizeHandle = document.createElement('div');
+      resizeHandle.classList.add('resize-handle');
+      element.appendChild(resizeHandle);
+
+      resizeHandle.onmousedown = function(e) {
+        e.preventDefault();
+        const initWidth = element.offsetWidth;
+        const initHeight = element.offsetHeight;
+
+        document.onmousemove = function(e) {
+          element.style.width = initWidth + e.clientX - element.getBoundingClientRect().left + 'px';
+          element.style.height = initHeight + e.clientY - element.getBoundingClientRect().top + 'px';
+        };
+
+        document.onmouseup = function() {
+          document.onmousemove = null;
+          document.onmouseup = null;
+        };
+      };
+    }
+
+    // Add editable text
+    function addText() {
+      const div = document.createElement('div');
+      div.textContent = 'Click here to edit text';
+      div.contentEditable = true;
+      div.classList.add('draggable');
+      div.style.left = '50px';
+      div.style.top = '50px';
+      const deleteBtn = document.createElement('button');
+      deleteBtn.textContent = 'X';
+      deleteBtn.classList.add('delete');
+      deleteBtn.onclick = function() {
+        div.remove();
+        saveUndoState();
+      };
+      div.appendChild(deleteBtn);
+      document.getElementById('canvas').appendChild(div);
+      makeDraggable(div);
+      saveUndoState();
+      setCurrentElement(div);
+    }
+
+    // Upload image from computer
+    function uploadImage(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          img.classList.add('draggable');
+          img.style.left = '50px';
+          img.style.top = '50px';
+          const deleteBtn = document.createElement('button');
+          deleteBtn.textContent = 'X';
+          deleteBtn.classList.add('delete');
+          deleteBtn.onclick = function() {
+            img.remove();
+            saveUndoState();
+          };
+          img.appendChild(deleteBtn);
+          document.getElementById('canvas').appendChild(img);
+          makeDraggable(img);
+          saveUndoState();
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    // Add button
+    function addButton() {
+      const button = document.createElement('button');
+      button.textContent = 'Click Me';
+      button.classList.add('draggable');
+      button.style.left = '50px';
+      button.style.top = '50px';
+      button.onclick = () => alert('Button Clicked!');
+      const deleteBtn = document.createElement('button');
+      deleteBtn.textContent = 'X';
+      deleteBtn.classList.add('delete');
+      deleteBtn.onclick = function() {
+        button.remove();
+        saveUndoState();
+      };
+      button.appendChild(deleteBtn);
+      document.getElementById('canvas').appendChild(button);
+      makeDraggable(button);
+      saveUndoState();
+    }
+
+    // Change text size
+    function changeTextSize(event) {
+      if (currentElement && currentElement.contentEditable === 'true') {
+        currentElement.style.fontSize = event.target.value + 'px';
+      }
+    }
+
+    // Save the current element as the selected element
+    function setCurrentElement(element) {
+      currentElement = element;
+    }
+
+    // Save layout to localStorage
+    function saveLayout() {
+      const canvasHTML = document.getElementById('canvas').innerHTML;
+      localStorage.setItem('websiteData', canvasHTML);
+      alert('Layout saved!');
+    }
+
+    // Load layout from localStorage
+    function loadLayout() {
+      const savedHTML = localStorage.getItem('websiteData');
+      if (savedHTML) {
+        document.getElementById('canvas').innerHTML = savedHTML;
+        const elements = document.querySelectorAll('.draggable');
+        elements.forEach(makeDraggable);
+        alert('Layout loaded!');
+      } else {
+        alert('No saved layout found.');
+      }
+    }
+
+    // Export site as HTML
+    function exportSite() {
+      const htmlContent = document.getElementById('canvas').innerHTML;
+      const blob = new Blob([htmlContent], { type: 'text/html' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'my-website.html';
+      a.click();
+    }
+
+    // Clear canvas
+    function clearCanvas() {
+      document.getElementById('canvas').innerHTML = '';
+      localStorage.removeItem('websiteData');
+      saveUndoState();
+    }
+
+    // Save the current state to the undo stack
+    function saveUndoState() {
+      undoStack.push(document.getElementById('canvas').innerHTML);
+      if (undoStack.length > 10) {
+        undoStack.shift(); // Limit stack size
+      }
+      redoStack = []; // Clear redo stack on new action
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>School Template Gallery</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow-x: hidden;
+      color: white;
+    }
+
+    /* Background video */
+    .background-video {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
+      z-index: -1;
+      object-fit: cover;
+      filter: brightness(0.4);
+    }
+
+    .header {
+      text-align: center;
+      padding: 2rem;
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: white;
+      background: rgba(0, 0, 0, 0.6);
+    }
+
+    .template-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 2rem;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .template-card {
+      background: white;
+      color: #333;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      transition: transform 0.3s;
+    }
+
+    .template-card:hover {
+      transform: scale(1.03);
+    }
+
+    .template-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .template-card p {
+      margin: 0;
+      padding: 1rem;
+      font-weight: bold;
+      font-size: 1.1rem;
+      text-align: center;
+    }
+
+    .customize-btn {
+      background-color: #4f46e5;
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 12px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      border-top: 1px solid #ddd;
+      transition: background-color 0.3s ease;
+    }
+
+    .customize-btn:hover {
+      background-color: #3730a3;
+    }
+
+    @media (max-width: 600px) {
+      .header {
+        font-size: 2rem;
+      }
+
+      .template-card img {
+        height: 150px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Video -->
+  <video autoplay muted loop class="background-video">
+    <source src="https://cdn.coverr.co/videos/coverr-school-bus-picking-up-kids-0810/1080p.mp4" type="video/mp4">
+    Your browser does not support HTML5 video.
+  </video>
+
+  <div class="header">🎓 Choose a School Website Template</div>
+
+  <div class="template-gallery">
+    <div class="template-card">
+      <img src="img8.jpg" alt="Modern Template">
+      <p>Modern Template</p>
+      <button onclick="location.href='builder.html?template=modern'" class="customize-btn">Customize</button>
+    </div>
+    <div class="template-card">
+      <img src="img10.jpg" alt="Classic Template">
+      <p>Classic Template</p>
+      <button onclick="location.href='builder.html?template=classic'" class="customize-btn">Customize</button>
+    </div>
+    <div class="template-card">
+      <img src="img9.jpg" alt="Minimal Template">
+      <p>Minimal Template</p>
+      <button onclick="location.href='builder.html?template=minimal'" class="customize-btn">Customize</button>
+    </div>
+  </div>
+
+</body>
+</html>
