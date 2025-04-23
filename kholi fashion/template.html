@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kooli Business</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Base Styles with Animation */
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #f8961e;
+            --danger: #ef233c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+            perspective: 1000px;
+        }
+        
+        ::selection {
+            background: var(--accent);
+            color: white;
+        }
+        
+        /* Particle Background */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            top: 0;
+            left: 0;
+            opacity: 0.3;
+        }
+        
+        /* Floating Animation */
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        
+        /* Gradient Shift Animation */
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Pulse Animation */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Neon Glow Animation */
+        @keyframes neon {
+            0% { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px var(--accent), 0 0 20px var(--accent); }
+            100% { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px var(--accent), 0 0 40px var(--accent); }
+        }
+        
+        /* Template Selector - Ultra Modern */
+        .template-selector {
+            text-align: center;
+            padding: 100px 0 150px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .template-selector::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(247,37,133,0.1) 0%, rgba(0,0,0,0) 70%);
+            animation: float 15s ease-in-out infinite;
+            z-index: -1;
+        }
+        
+        .template-selector h1 {
+            font-size: 5rem;
+            margin-bottom: 30px;
+            background: linear-gradient(90deg, #ff8906, #e53170, #f25f4c, #ff8906);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradientShift 8s ease infinite, neon 2s alternate infinite;
+            background-size: 300% 300%;
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+        
+        .template-selector p {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto 60px;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.8);
+            animation: fadeIn 2s ease;
+        }
+        
+        .template-filter {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(247,37,133,0.3);
+        }
+        
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+            perspective: 1000px;
+        }
+        
+        .template-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            transform-style: preserve-3d;
+        }
+        
+        .template-card:hover {
+            transform: translateY(-15px) rotateX(5deg) rotateY(5deg);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+        }
+        
+        .template-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(247,37,133,0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        
+        .template-card:hover::before {
+            transform: translateX(100%);
+        }
+        
+        .template-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--accent);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+            animation: pulse 2s infinite;
+        }
+        
+        .template-preview {
+            height: 250px;
+            background-size: cover;
+            background-position: top center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .template-preview::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(to top, rgba(10,10,10,0.9), transparent);
+        }
+        
+        .template-info {
+            padding: 25px;
+            text-align: left;
+        }
+        
+        .template-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #ffffff, #cccccc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .template-info p {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 20px;
+            text-align: left;
+            animation: none;
+        }
+        
+        .template-tags {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .template-tag {
+            background: rgba(255,255,255,0.1);
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+        }
+        
+        .select-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(67,97,238,0.3);
+        }
+        
+        .select-btn:hover {
+            background: linear-gradient(45deg, var(--secondary), var(--primary));
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(67,97,238,0.4);
+        }
+        
+        .select-btn i {
+            margin-left: 10px;
+            transition: transform 0.3s ease;
+        }
+        
+        .select-btn:hover i {
+            transform: translateX(5px);
+        }
+        
+        /* Customizer Panel */
+        .customizer-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: rgba(15,15,15,0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: -5px 0 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            transition: right 0.5s cubic-bezier(0.215, 0.610, 0.355, 1);
+            border-left: 1px solid rgba(255,255,255,0.1);
+            overflow-y: auto;
+            padding: 30px;
+        }
+        
+        .customizer-panel.active {
+            right: 0;
+        }
+        
+        .customizer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .customizer-header h2 {
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, var(--accent), var(--warning));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .close-customizer {
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.5);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .close-customizer:hover {
+            color: var(--danger);
+            transform: rotate(90deg);
+        }
+        
+        .customizer-section {
+            margin-bottom: 30px;
+        }
+        
+        .customizer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--light);
+            display: flex;
+            align-items: center;
+        }
+        
+        .customizer-section h3 i {
+            margin-right: 10px;
+            color: var(--accent);
+        }
+        
+        .color-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+        
+        .color-option.selected {
+            border: 2px solid white;
+            transform: scale(1.1);
+            box-shadow: 0 0 0 3px rgba(255,255,255,0.3);
+        }
+        
+        .customizer-control {
+            margin-bottom: 15px;
+        }
+        
+        .customizer-control label {
+            display: block;
+            margin-bottom: 8px;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        .customizer-control input[type="text"],
+        .customizer-control input[type="email"],
+        .customizer-control textarea,
+        .customizer-control select {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        .customizer-control input[type="text"]:focus,
+        .customizer-control input[type="email"]:focus,
+        .customizer-control textarea:focus,
+        .customizer-control select:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(247,37,133,0.2);
+        }
+        
+        .customizer-control textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .customizer-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .customizer-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .customizer-btn i {
+            margin-right: 8px;
+        }
+        
+        .save-btn {
+            background: var(--success);
+            color: white;
+        }
+        
+        .save-btn:hover {
+            background: #3aa8d0;
+            transform: translateY(-3px);
+        }
+        
+        .reset-btn {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+        
+        .reset-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-3px);
+        }
+        
+        .preview-btn {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .preview-btn:hover {
+            background: #e51775;
+            transform: translateY(-3px);
+        }
+        
+        /* Template Preview Modal */
+        .preview-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .preview-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .preview-container {
+            width: 90%;
+            height: 90%;
+            background: #121212;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.5s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        
+        .preview-modal.active .preview-container {
+            transform: scale(1);
+        }
+        
+        .preview-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .close-preview {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--danger);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            border: none;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .close-preview:hover {
+            transform: rotate(90deg) scale(1.1);
+        }
+        
+        /* Template Styles (Hidden Initially) */
+        .template {
+            display: none;
+            position: relative;
+        }
+        
+        /* Modern Agency Template */
+        #modern-agency {
+            background: #0a0a0a;
+            color: white;
+        }
+        
+        /* Creative Portfolio Template */
+        #creative-portfolio {
+            background: #0f0e17;
+            color: #fffffe;
+        }
+        
+        /* E-commerce Template */
+        #ecommerce {
+            background: #f8f9fa;
+            color: #212529;
+        }
+        
+        /* Minimal Blog Template */
+        #minimal-blog {
+            background: #ffffff;
+            color: #333333;
+        }
+        
+        /* Restaurant Template */
+        #restaurant {
+            background: #1a1a2e;
+            color: #ffffff;
+        }
+        
+        /* SaaS Template */
+        #saas {
+            background: #0f172a;
+            color: #ffffff;
+        }
+        
+        /* Coming Soon */
+        .coming-soon {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 3000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .coming-soon h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, var(--accent), var(--warning));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradientShift 8s ease infinite;
+            background-size: 300% 300%;
+        }
+        
+        .coming-soon p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-bottom: 30px;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        .back-btn {
+            padding: 12px 30px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: #e51775;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(247,37,133,0.3);
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideInLeft {
+            from { transform: translateX(-100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideInRight {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes zoomIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        @keyframes rotateIn {
+            from { transform: rotate(-90deg); opacity: 0; }
+            to { transform: rotate(0); opacity: 1; }
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .template-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .template-selector h1 {
+                font-size: 3.5rem;
+            }
+            
+            .template-selector p {
+                font-size: 1.2rem;
+            }
+            
+            .customizer-panel {
+                width: 100%;
+                right: -100%;
+            }
+            
+            .preview-container {
+                width: 95%;
+                height: 95%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .template-selector h1 {
+                font-size: 2.5rem;
+            }
+            
+            .template-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle Background -->
+    <div id="particles-js"></div>
+    
+    <!-- Template Selection Page -->
+    <section class="template-selector" id="selector-page">
+        <div class="container">
+            <h1>Create Your Stunning Website</h1>
+            <p>Choose from our premium collection of professionally designed templates and customize every element to match your brand identity.</p>
+            
+            <div class="template-filter">
+                <button class="filter-btn active" data-filter="all">All Templates</button>
+                <button class="filter-btn" data-filter="business">Business</button>
+                <button class="filter-btn" data-filter="portfolio">Portfolio</button>
+                <button class="filter-btn" data-filter="ecommerce">E-commerce</button>
+                <button class="filter-btn" data-filter="blog">Blog</button>
+                <button class="filter-btn" data-filter="specialty">Specialty</button>
+            </div>
+            
+            <div class="template-grid">
+                <!-- Modern Agency -->
+                <div class="template-card" data-template="modern-agency" data-category="business">
+                    <div class="template-badge">Popular</div>
+                    <div class="template-preview" style="background-image: url('https://plus.unsplash.com/premium_photo-1682284353484-4e16001c58eb?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8c2Nob29sfGVufDB8fDB8fHww');"></div>
+                    <div class="template-info">
+                        <h3>School Website</h3>
+                        <p>Professional design for creative agencies and corporate businesses with sleek animations.</p>
+                        <div class="template-tags">
+                            <span class="template-tag">Business</span>
+                            <span class="template-tag">Modern</span>
+                            <span class="template-tag">Animated</span>
+                        </div>
+                        <button class="select-btn" onclick="window.location.href='sch.html'">Select <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+                
+                <!-- Creative Portfolio -->
+                <div class="template-card" data-template="creative-portfolio" data-category="portfolio">
+                    <div class="template-badge">New</div>
+                    <div class="template-preview" style="background-image: url('https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                    <div class="template-info">
+                        <h3>Creative Portfolio</h3>
+                        <p>Showcase your work with this visually stunning portfolio template with 3D effects.</p>
+                        <div class="template-tags">
+                            <span class="template-tag">Portfolio</span>
+                            <span class="template-tag">Creative</span>
+                            <span class="template-tag">3D</span>
+                        </div>
+                        <button class="select-btn" onclick="selectTemplate('creative-portfolio')">Select <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+                
+                <!-- E-commerce -->
+                <div class="template-card" data-template="ecommerce" data-category="ecommerce">
+                    <div class="template-preview" style="background-image: url('https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                    <div class="template-info">
+                        <h3>E-commerce Pro</h3>
+                        <p>Complete online store template with product showcases and shopping cart functionality.</p>
+                        <div class="template-tags">
+                            <span class="template-tag">E-commerce</span>
+                            <span class="template-tag">Shop</span>
+                            <span class="template-tag">Products</span>
+                        </div>
+                        <button class="select-btn" onclick="selectTemplate('ecommerce')">Select <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+                
+                <!-- Minimal Blog -->
+                <div class="template-card" data-template="minimal-blog" data-category="blog">
+                    <div class="template-badge">Clean</div>
+                    <div class="template-preview" style="background-image: url('https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                    <div class="template-info">
+                        <h3>Minimal Blog</h3>
+                        <p>Elegant and distraction-free template perfect for writers and content creators.</p>
+                        <div class="template-tags">
+                            <span class="template-tag">Blog</span>
+                            <span class="template-tag">Minimal</span>
+                            <span class="template-tag">Reading</span>
+                        </div>
+                        <button class="select-btn" onclick="selectTemplate('minimal-blog')">Select <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+                
+                <!-- Restaurant -->
+                <div class="template-card" data-template="restaurant" data-category="specialty">
+                    <div class="template-preview" style="background-image: url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                    <div class="template-info">
+                        <h3>Gourmet Restaurant</h3>
+                        <p>Delicious template for restaurants and food businesses with menu animations.</p>
+                        <div class="template-tags">
+                            <span class="template-tag">Restaurant</span>
+                            <span class="template-tag">Food</span>
+                            <span class="template-tag">Menu</span>
+                        </div>
+                        <button class="select-btn" onclick="selectTemplate('restaurant')">Select <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+                
+                <!-- SaaS -->
+                <div class="template-card" data-template="saas" data-category="business">
+                    <div class="template-badge">Tech</div>
+                    <div class="template-preview" style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                    <div class="template-info">
+                        <h3>SaaS Platform</h3>
+                        <p>Modern template for software companies with interactive demo elements.</p>
+                        <div class="template-tags">
+                            <span class="template-tag">SaaS</span>
+                            <span class="template-tag">Tech</span>
+                            <span class="template-tag">Dashboard</span>
+                        </div>
+                        <button class="select-btn" onclick="selectTemplate('saas')">Select <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+                
+                <!-- More templates would continue here... -->
+            </div>
+        </div>
+    </section>
+    <footer>
+    </div>
+    <div class="copyright">
+        &copy; 2025 KooliBussiness. All rights reserved.
+    </div>
+    </footer>
+    
+    <!-- Customizer Panel -->
+    <div class="customizer-panel" id="customizer-panel">
+        <div class="customizer-header">
+            <h2>Customize Your Template</h2>
+            <button class="close-customizer" onclick="closeCustomizer()"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <div class="customizer-section">
+            <h3><i class="fas fa-palette"></i> Color Scheme</h3>
+            <div class="color-options">
+                <div class="color-option selected" style="background: #4361ee;" data-color-primary="#4361ee" data-color-secondary="#3f37c9" data-color-accent="#f72585"></div>
+                <div class="color-option" style="background: #3a86ff;" data-color-primary="#3a86ff" data-color-secondary="#2667cc" data-color-accent="#8338ec"></div>
+                <div class="color-option" style="background: #7209b7;" data-color-primary="#7209b7" data-color-secondary="#560bad" data-color-accent="#f72585"></div>
+                <div class="color-option" style="background: #f72585;" data-color-primary="#f72585" data-color-secondary="#b5179e" data-color-accent="#4cc9f0"></div>
+                <div class="color-option" style="background: #ff9e00;" data-color-primary="#ff9e00" data-color-secondary="#ff9100" data-color-accent="#ff3d00"></div>
+                <div class="color-option" style="background: #2ec4b6;" data-color-primary="#2ec4b6" data-color-secondary="#1a936f" data-color-accent="#f72585"></div>
+            </div>
+        </div>
+        
+        <div class="customizer-section">
+            <h3><i class="fas fa-font"></i> Typography</h3>
+            <div class="customizer-control">
+                <label for="font-family">Font Family</label>
+                <select id="font-family">
+                    <option value="Poppins">Poppins (Modern)</option>
+                    <option value="Roboto">Roboto (Clean)</option>
+                    <option value="Playfair Display">Playfair Display (Elegant)</option>
+                    <option value="Montserrat">Montserrat (Bold)</option>
+                    <option value="Open Sans">Open Sans (Neutral)</option>
+                </select>
+            </div>
+            <div class="customizer-control">
+                <label for="font-size">Base Font Size</label>
+                <select id="font-size">
+                    <option value="14px">Small</option>
+                    <option value="16px" selected>Medium</option>
+                    <option value="18px">Large</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="customizer-section">
+            <h3><i class="fas fa-info-circle"></i> Site Information</h3>
+            <div class="customizer-control">
+                <label for="site-title">Site Title</label>
+                <input type="text" id="site-title" placeholder="Your Company Name">
+            </div>
+            <div class="customizer-control">
+                <label for="site-slogan">Slogan/Tagline</label>
+                <input type="text" id="site-slogan" placeholder="Your catchy slogan here">
+            </div>
+            <div class="customizer-control">
+                <label for="site-logo">Logo URL</label>
+                <input type="text" id="site-logo" placeholder="https://example.com/logo.png">
+            </div>
+        </div>
+        
+        <div class="customizer-section">
+            <h3><i class="fas fa-user"></i> About Information</h3>
+            <div class="customizer-control">
+                <label for="about-title">About Title</label>
+                <input type="text" id="about-title" placeholder="About Our Company">
+            </div>
+            <div class="customizer-control">
+                <label for="about-content">About Content</label>
+                <textarea id="about-content" placeholder="Tell your story..."></textarea>
+            </div>
+        </div>
+        
+        <div class="customizer-section">
+            <h3><i class="fas fa-envelope"></i> Contact Information</h3>
+            <div class="customizer-control">
+                <label for="contact-email">Email Address</label>
+                <input type="email" id="contact-email" placeholder="contact@yourcompany.com">
+            </div>
+            <div class="customizer-control">
+                <label for="contact-phone">Phone Number</label>
+                <input type="text" id="contact-phone" placeholder="+1 (123) 456-7890">
+            </div>
+            <div class="customizer-control">
+                <label for="contact-address">Physical Address</label>
+                <textarea id="contact-address" placeholder="123 Main St, City, Country"></textarea>
+            </div>
+        </div>
+        
+        <div class="customizer-actions">
+            <button class="customizer-btn preview-btn" onclick="previewTemplate()"><i class="fas fa-eye"></i> Preview</button>
+            <button class="customizer-btn reset-btn" onclick="resetCustomizer()"><i class="fas fa-undo"></i> Reset</button>
+            <button class="customizer-btn save-btn" onclick="saveTemplate()"><i class="fas fa-save"></i> Save & Export</button>
+        </div>
+    </div>
+    
+    <!-- Template Preview Modal -->
+    <div class="preview-modal" id="preview-modal">
+        <div class="preview-container">
+            <button class="close-preview" onclick="closePreview()"><i class="fas fa-times"></i></button>
+            <iframe class="preview-iframe" id="preview-iframe" frameborder="0"></iframe>
+        </div>
+    </div>
+    
+    <!-- Modern Agency Template (Hidden Initially) -->
+    <div id="modern-agency" class="template">
+        <!-- Template content would be here with inline styles -->
+        <!-- This would be a complete HTML template with all pages -->
+        <!-- For brevity, I'm showing the structure but not all content -->
+        <style>
+            /* All template styles would be here */
+            /* This would be several hundred lines of CSS */
+        </style>
+        
+        <div class="modern-agency-container">
+            <!-- Header -->
+            <header class="modern-header">
+                <!-- Navigation -->
+            </header>
+            
+            <!-- Hero Section -->
+            <section class="modern-hero">
+                <!-- Hero content -->
+            </section>
+            
+            <!-- About Page -->
+            <section id="about" class="modern-section about-section">
+                <div class="about-container">
+                    <h2 class="section-title">About Us</h2>
+                    <div class="about-content">
+                        <div class="about-text">
+                            <h3>Our Story</h3>
+                            <p id="dynamic-about-content">[About content from customizer will appear here]
+                                

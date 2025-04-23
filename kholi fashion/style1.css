@@ -1,0 +1,230 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    color: #fff;
+    transition: background-color 0.3s ease;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.video-background {
+    position: fixed; /* Fixed position to stay in the background */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Send video to the background */
+}
+
+#bg-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+header {
+    padding: 60px 20px;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+.navbar a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.navbar a:hover {
+    color: #FEB47B;
+}
+
+.hero h1 {
+    font-size: 4em;
+    margin-bottom: 20px;
+    animation: fadeInUp 1.5s ease-out;
+}
+
+.hero p {
+    font-size: 1.6em;
+    margin-bottom: 25px;
+    font-weight: 300;
+    animation: fadeInUp 2s ease-out;
+}
+
+.cta-button {
+    padding: 12px 30px;
+    background-color: #FEB47B;
+    color: #333;
+    border: none;
+    border-radius: 30px;
+    font-size: 18px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #FF7E5F;
+    transform: scale(1.05);
+}
+
+section {
+    padding: 60px 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    margin-top: 20px;
+    border-radius: 20px;
+    animation: fadeInSection 1.5s ease-in-out;
+}
+
+section h2 {
+    font-size: 2.8em;
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: 600;
+    color: #FEB47B;
+}
+
+.content-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+form input, form select, form textarea {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: #e7e7e7;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+form input[type="submit"], button {
+    background-color: #FF7E5F;
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form input[type="submit"]:hover, button:hover {
+    background-color: #FEB47B;
+}
+
+.gallery-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.gallery-container img {
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery-container img:hover {
+    transform: scale(1.1);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.25);
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInSection {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.parallax {
+    background-image: url('img1.jpg');
+    min-height: 100%;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.cta-button:hover {
+    background-color: #FEB47B;
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(255, 126, 95, 0.7);
+}
+
+.navbar a:hover {
+    color: #FF7E5F;
+    text-decoration: underline;
+}
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+#loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.spinner {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #ff7e5f;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

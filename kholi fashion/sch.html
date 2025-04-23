@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Website</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+    <!-- Full-screen Background Video -->
+    <div class="video-background">
+        <video autoplay muted loop id="bg-video">
+            <source src="\kholi fasion\tt.mp4" type="video/mp4">
+            Your browser does not support HTML5 video.
+        </video>
+    </div>
+
+    <div id="countdown"></div>
+    
+
+
+    <!-- Navbar -->
+    <header>
+        <div class="navbar">
+            <a href="#home">Home</a>
+            <a href="#about">About Us</a>
+            <a href="#events">Events</a>
+            <a href="#admissions">Admissions</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <div class="hero">
+            <h1>Welcome to Our School</h1>
+            <p>Empowering the Future</p>
+            <a href="#about" class="cta-button">Explore Now</a>
+        </div>
+    </header>
+
+    <section id="about">
+        <div class="content-container">
+            <h2>Principal’s Message</h2>
+            <p>Welcome to our school website! We are committed to providing quality education...</p>
+        </div>
+    </section>
+
+    <section id="events">
+        <div class="content-container">
+            <h2>Upcoming Events</h2>
+            <ul id="events-list">
+                <li class="event-item">Science Fair - April 25, 2025</li>
+                <li class="event-item">Annual Sports Day - May 10, 2025</li>
+                <li class="event-item">Parent-Teacher Meeting - June 5, 2025</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="admissions">
+        <div class="content-container">
+            <h2>Admissions</h2>
+            <form action="#" method="POST">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="grade">Grade Level:</label>
+                    <select id="grade" name="grade">
+                        <option value="1">Grade 1</option>
+                        <option value="2">Grade 2</option>
+                        <option value="3">Grade 3</option>
+                    </select>
+                </div>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+    </section>
+
+    <section id="gallery">
+        <div class="content-container">
+            <h2>Gallery</h2>
+            <div class="gallery-container">
+                <img src="img1.jpg" alt="Event 1" class="gallery-item">
+                <img src="img2.jpg" alt="Event 2" class="gallery-item">
+                <img src="img4.jpg" alt="Event 3" class="gallery-item">
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="content-container">
+            <h2>Contact Us</h2>
+            <form action="submit-form.php" method="POST">
+                <div class="form-group">
+                    <label for="contact-name">Name:</label>
+                    <input type="text" id="contact-name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="contact-email">Email:</label>
+                    <input type="email" id="contact-email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="contact-message">Message:</label>
+                    <textarea id="contact-message" name="message" required></textarea>
+                </div>
+                <button type="submit">Send Message</button>
+            </form>
+
+            <div id="google-map">
+                <iframe src="https://www.google.com/maps/embed?pb=..." width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 School Website. All rights reserved.</p>
+    </footer>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
